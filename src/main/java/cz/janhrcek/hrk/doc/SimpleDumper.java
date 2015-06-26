@@ -24,22 +24,22 @@ public class SimpleDumper {
     }
 
     private void appendDocInfo(ClassDoc doc) {
-        sb.append(getConstruct(doc)).append(" ").append(formatName(doc)).append("\n");
+        sb.append(formatConstruct(doc)).append("\n");
 
         ClassDoc superCls = doc.superclass();
         if (superCls != null) {
-            sb.append("    extends ").append(formatName(superCls)).append("\n");
+            sb.append("    extends ").append(formatConstruct(superCls)).append("\n");
         }
 
         for (ClassDoc superIfc : doc.interfaces()) {
             // Interface EXTENDS Interface, Class IMPLEMENTS Interface
             String keyword = doc.isInterface() ? "extends" : "implements";
-            sb.append("    ").append(keyword).append(" ").append(formatName(superIfc)).append("\n");
+            sb.append("    ").append(keyword).append(" ").append(formatConstruct(superIfc)).append("\n");
         }
     }
 
-    private String formatName(ClassDoc cd) {
-        return cd.containingPackage() + " " + cd.name();
+    private String formatConstruct(ClassDoc doc) {
+        return getConstruct(doc) + " " + doc.containingPackage() + " " + doc.name();
     }
 
     private String getConstruct(ClassDoc cd) {
