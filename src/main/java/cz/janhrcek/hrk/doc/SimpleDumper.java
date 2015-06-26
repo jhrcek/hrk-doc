@@ -18,12 +18,12 @@ public class SimpleDumper {
     /* Arbitratily named helper */
     public void process(RootDoc root) {
         for (ClassDoc cls : root.classes()) {
-            appendClassInfo(cls);
+            appendDocInfo(cls);
         }
         System.out.println(sb.toString());
     }
 
-    private void appendClassInfo(ClassDoc doc) {
+    private void appendDocInfo(ClassDoc doc) {
         sb.append(getConstruct(doc)).append(" ").append(formatName(doc)).append("\n");
 
         ClassDoc superCls = doc.superclass();
@@ -32,7 +32,9 @@ public class SimpleDumper {
         }
 
         for (ClassDoc superIfc : doc.interfaces()) {
-            sb.append("    implements ").append(formatName(superIfc)).append("\n");
+            // Interface EXTENDS Interface, Class IMPLEMENTS Interface
+            String keyword = doc.isInterface() ? "extends" : "implements";
+            sb.append("    ").append(keyword).append(" ").append(formatName(superIfc)).append("\n");
         }
     }
 
