@@ -7,6 +7,8 @@ import java.util.Objects;
 
 public class SimpleDumper {
 
+    private final StringBuilder sb = new StringBuilder();
+
     /* Entry point of the Doclet */
     public static boolean start(RootDoc root) {
         new SimpleDumper().process(root);
@@ -16,20 +18,21 @@ public class SimpleDumper {
     /* Arbitratily named helper */
     public void process(RootDoc root) {
         for (ClassDoc cls : root.classes()) {
-            printClassInfo(cls);
+            appendClassInfo(cls);
         }
+        System.out.println(sb.toString());
     }
 
-    private void printClassInfo(ClassDoc doc) {
-        System.out.println(getConstruct(doc) + " " + formatName(doc));
+    private void appendClassInfo(ClassDoc doc) {
+        sb.append(getConstruct(doc)).append(" ").append(formatName(doc)).append("\n");
 
         ClassDoc superCls = doc.superclass();
         if (superCls != null) {
-            System.out.println("    extends " + formatName(superCls));
+            sb.append("    extends ").append(formatName(superCls)).append("\n");
         }
 
-        for (ClassDoc iface : doc.interfaces()) {
-            System.out.println("    implements " + formatName(iface));
+        for (ClassDoc superIfc : doc.interfaces()) {
+            sb.append("    implements ").append(formatName(superIfc)).append("\n");
         }
     }
 
