@@ -38,7 +38,6 @@ public class Collector {
         } else {
             ids.put(constr, ++idGen);
         }
-        System.out.println("    stored " + constr + " with id " + idGen);
         return idGen;
     }
 
